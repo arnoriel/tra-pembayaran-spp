@@ -12,7 +12,7 @@ class KelasController extends Controller
      */
     public function index()
     {
-        $kelas = Kelas::all();
+        $kelas = Kelas::paginate(5);
         return view('admin.kelas.index', compact('kelas'));
     }
 
@@ -79,7 +79,7 @@ class KelasController extends Controller
         ]);
 
         if($kelas){
-            return redirect()->route('kelas.index')->with(['success' => 'Data Kelas Berhasil Di Update!']);
+            return redirect()->route('kelas.index')->with(['update' => 'Data Kelas Berhasil Di Update!']);
         }else{
             return redirect()->route('kelas.index')->with(['error' => 'Data Kelas Tidak Dapat Di Update :(']);
         }
@@ -88,8 +88,15 @@ class KelasController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Kelas $kelas)
+    public function destroy($id)
     {
-        //
+        $kelas = Kelas::findOrFail($id);
+        $kelas->delete();
+
+        if($kelas){
+            return redirect()->route('kelas.index')->with(['delete' => 'Data Kelas Berhasil Di Delete!']);
+        }else{
+            return redirect()->route('kelas.index')->with(['error' => 'Data Kelas Tidak Dapat Di Delete :(']);
+        }
     }
 }
