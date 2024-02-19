@@ -36,7 +36,7 @@
                     <ul class="navbar-nav me-auto">
                         @if (Auth::user()->role == '1')
                         <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="#">Siswa</a>
+                            <a class="nav-link active" aria-current="page" href="{{route('siswa.index')}}">Siswa</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link active" aria-current="page" href="{{route('kelas.index')}}">Kelas</a>
@@ -45,7 +45,7 @@
                             <a class="nav-link active" aria-current="page" href="#">Petugas</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="#">SPP</a>
+                            <a class="nav-link active" aria-current="page" href="{{route('spp.index')}}">SPP</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link active" aria-current="page" href="#">Pembayaran SPP</a>
