@@ -10,4 +10,14 @@ class Siswa extends Model
     use HasFactory;
 
     protected $guarded = [];
+
+    public function kelas()
+    {
+        return $this->belongsTo(Kelas::class);
+    }
+
+    public function spp()
+    {
+        return $this->belongsTo(Spp::class);
+    }
 }

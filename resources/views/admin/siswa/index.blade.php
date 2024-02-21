@@ -21,7 +21,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
             @endif
-            <div class="col-md-8">
+            <div class="col-md-10">
                 <div class="card">
                     <div class="card-header">
                         <a href="#" data-bs-toggle="modal" data-bs-target="#tambah"
@@ -48,13 +48,16 @@
                                         <th scope="row">{{ ++$no }}</th>
                                         <td>{{ $s->nisn }} | {{ $s->nis }}</td>
                                         <td>{{ $s->nama }}</td>
-                                        <td>{{ $s->kelas_id }}</td>
+                                        <td>{{ $s->kelas->nama_kelas }}</td>
                                         <td>{{ $s->alamat }}</td>
                                         <td>{{ $s->no_hp }}</td>
                                         <td>
                                             <a href="#" data-bs-toggle="modal"
                                                 data-bs-target="#edit{{ $s->id }}"
                                                 class="btn btn-secondary btn-sm">Edit</a>
+                                            <a href="#" data-bs-toggle="modal"
+                                                data-bs-target="#tampil{{ $s->id }}"
+                                                class="btn btn-warning btn-sm">Lihat</a>
                                             <a href="#" data-bs-toggle="modal"
                                                 data-bs-target="#delete{{ $s->id }}"
                                                 class="btn btn-danger btn-sm">Hapus</a>
@@ -239,7 +242,7 @@
                                 class="form-control @error('nisn')
                             is-invalid
                             @enderror"
-                                name="nisn" value="{{old('nisn', $s->nisn)}}" placeholder="Masukkan nisn dengan Benar">
+                                name="nisn" value="{{old('nisn', $s->nisn)}}" placeholder="Masukkan nisn dengan Benar" disabled>
 
                             @error('nisn')
                                 <div class="alert alert-danger" role="alert">
@@ -253,7 +256,7 @@
                                 class="form-control @error('nis')
                             is-invalid
                             @enderror"
-                                name="nis" value="{{old('nis', $s->nis)}}" placeholder="Masukkan nis dengan Benar">
+                                name="nis" value="{{old('nis', $s->nis)}}" placeholder="Masukkan nis dengan Benar" disabled>
 
                             @error('nis')
                                 <div class="alert alert-danger" role="alert">
@@ -330,6 +333,29 @@
         </div>
     </div>
     @endforeach
+    {{-- Modal Tampil --}}
+    @foreach ($siswa as $s)
+    <div class="modal fade" id="tampil{{$s->id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Detail Data Siswa</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                   <p class="text-center"><b>{{$s->nama}}</b></p>
+                   <p><b>NISN | NIS:</b> {{$s->nisn}} | {{$s->nis}}</p>
+                   <p><b>Kelas:</b> {{$s->kelas->nama_kelas}}</p>
+                   <p><b>Alamat:</b> {{$s->alamat}}</p>
+                   <p><b>No. HP:</b> {{$s->no_hp}}</p>
+                   <p><b>Tahun SPP:</b> {{$s->spp->tahun}}</p>
+                   <p><b>Nominal SPP:</b> <span class="btn btn-success">{{'Rp. ' . number_format($s->spp->nominal, 2, '.', '.')}}</span></p>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    @endforeach
     {{-- Modal Delete --}}
     @foreach ($siswa as $s)
         <div class="modal fade" id="delete{{ $s->id }}" tabindex="-1" aria-labelledby="exampleModalLabel"
@@ -345,7 +371,7 @@
                     </div>
                     <div class="modal-footer justify-content-between">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
-                        <form action="{{ route('spp.destroy', $s->id) }}" method="post">
+                        <form action="{{ route('siswa.destroy', $s->id) }}" method="post">
                             @csrf
                             @method('delete')
                             <button type="submit" class="btn btn-success">Ya, Hapus</button>

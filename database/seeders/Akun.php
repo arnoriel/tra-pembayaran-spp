@@ -16,7 +16,7 @@ class Akun extends Seeder
     {
         $data = [
             [
-                'name' => 'azril',
+                'name' => 'Admin',
                 'email' => 'admin@gmail.com',
                 'password' => bcrypt('admin'),
                 'role' => '1',
